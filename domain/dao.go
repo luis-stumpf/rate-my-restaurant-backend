@@ -16,6 +16,7 @@ func Create(restaurant *entity.Restaurant) (*entity.Restaurant, error) {
 		{"name", restaurant.Name},
 		{"type", restaurant.Type},
 		{"rating", restaurant.Rating},
+		{"image", restaurant.Image},
 		{"menu", restaurant.Menu},
 	})
 	if err != nil {
