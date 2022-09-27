@@ -62,12 +62,6 @@ func (c *controller) CreateRestaurant(ctx *gin.Context) error {
 
 func (c *controller) FindRestaurant(ctx *gin.Context) (result *gin.Context) {
 	restaurantName := ctx.Request.URL.Query()
-	/*if restaurantName.Get("restaurant") == "" {
-		ctx.JSON(http.StatusBadRequest, "no restaurant")
-		return
-	}
-
-	*/
 	restaurant, err := c.service.FindRestaurant(restaurantName.Get("restaurant"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)

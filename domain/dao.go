@@ -15,6 +15,7 @@ func Create(restaurant *entity.Restaurant) (*entity.Restaurant, error) {
 	result, err := restaurantC.InsertOne(ctx, bson.D{
 		{"name", restaurant.Name},
 		{"type", restaurant.Type},
+		{"rating", restaurant.Rating},
 		{"menu", restaurant.Menu},
 	})
 	if err != nil {
@@ -29,7 +30,12 @@ func Find(restaurantName string) (*entity.Restaurant, error) {
 	var restaurant entity.Restaurant
 	restaurantC := db.Collection("restaurants")
 	ctx, _ := context.WithTimeout(context.Background(), time.Second*20)
-	err := restaurantC.FindOne(ctx, bson.M{"name": restaurantName}).Decode(&restaurant)
+	objID, err := primitive.ObjectIDFromHex(restaurantName)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	err = restaurantC.FindOne(ctx, bson.M{"_id": objID}).Decode(&restaurant)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err

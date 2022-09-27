@@ -3,10 +3,11 @@ package entity
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type Restaurant struct {
-	ID   primitive.ObjectID `json:"id" bson:"_id,omitempty"`
-	Name string             `json:"name" binding:"required" bson:"name,omitempty"`
-	Type string             `json:"type" bson:"type,omitempty"`
-	Menu []Dish             `json:"menu" bson:"menu"`
+	ID     primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	Name   string             `json:"name" binding:"required" bson:"name,omitempty"`
+	Type   string             `json:"type" bson:"type,omitempty"`
+	Rating float32            `json:"rating" bson:"rating,omitempty"`
+	Menu   []Dish             `json:"menu" bson:"menu"`
 }
 
 type Dish struct {
