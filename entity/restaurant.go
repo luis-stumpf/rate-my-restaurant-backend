@@ -12,7 +12,6 @@ type Restaurant struct {
 }
 
 type Dish struct {
-	//ID       primitive.ObjectID `json:"id" bson:"_id,omitempty"`
 	Name  string  `json:"name" binding:"required" bson:"name,omitempty"`
 	Price float32 `json:"price" binding:"required" bson:"price,omitempty"`
 }

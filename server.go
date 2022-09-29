@@ -20,6 +20,9 @@ func main() {
 
 	server := gin.Default()
 
+	config := cors.DefaultConfig()
+	config.AddAllowHeaders("restaurantid")
+
 	server.Use(cors.Default())
 
 	server.LoadHTMLGlob("templates/*.html")
@@ -50,6 +53,15 @@ func main() {
 			} else {
 				ctx.JSON(http.StatusOK, gin.H{"message": "User created"})
 
+			}
+		})
+
+		apiRoutes.POST("/addDish", func(ctx *gin.Context) {
+			err := restaurantController.AddDish(ctx)
+			if err != nil {
+				ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			} else {
+				ctx.JSON(http.StatusOK, gin.H{"message": "Dish added"})
 			}
 		})
 

@@ -14,6 +14,7 @@ type RestaurantController interface {
 	ShowAll(ctx *gin.Context)
 	CreateRestaurant(ctx *gin.Context) error
 	FindRestaurant(ctx *gin.Context) (result *gin.Context)
+	AddDish(ctx *gin.Context) error
 }
 
 type controller struct {
@@ -69,4 +70,16 @@ func (c *controller) FindRestaurant(ctx *gin.Context) (result *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, restaurant)
 	return ctx
+}
+
+func (c *controller) AddDish(ctx *gin.Context) error {
+	restaurantName := ctx.Request.Header.Get("restaurantId")
+	var newDish entity.Dish
+	err := ctx.ShouldBind(&newDish)
+	if err != nil {
+		return err
+	}
+
+	c.service.AddDish(restaurantName, &newDish)
+	return nil
 }

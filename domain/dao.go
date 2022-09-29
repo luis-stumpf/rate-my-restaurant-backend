@@ -2,6 +2,7 @@ package domain
 
 import (
 	"context"
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
@@ -66,4 +67,19 @@ func FindAll() *[]entity.Restaurant {
 	defer cursor.Close(context.Background())
 	return &restaurants
 
+}
+
+func AddDish(restaurantName string, dish *entity.Dish) error {
+	restaurantC := db.Collection("restaurants")
+	ctx, _ := context.WithTimeout(context.Background(), time.Second*20)
+	id, _ := primitive.ObjectIDFromHex(restaurantName)
+	filter := bson.M{"_id": id}
+	update := bson.M{"$push": bson.M{"menu": bson.M{"name": dish.Name, "price": dish.Price}}}
+
+	result, err := restaurantC.UpdateOne(ctx, filter, update)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(result)
+	return nil
 }
